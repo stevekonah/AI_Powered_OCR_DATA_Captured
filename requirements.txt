@@ -1,0 +1,10 @@
+PyQt5
+pytesseract
+Pillow
+SQLAlchemy
+pandas
+matplotlib
+bcrypt
+twain
+transformers
+torch
