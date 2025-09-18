@@ -5,6 +5,7 @@ SQLAlchemy
 pandas
 matplotlib
 bcrypt
-python-twain
+# For Linux scanner support (optional):
+python-sane
 transformers
 torch

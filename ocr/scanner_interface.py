@@ -1,53 +1,54 @@
 import platform
 
-def scan_document():
+def scan_document(parent=None):
+    """
+    Tries to scan a document from hardware, falling back to file import if no scanner is available.
+    Returns the file path of the scanned or imported image, or None if cancelled.
+    """
     system = platform.system()
-    if system == "Windows":
-        # Try TWAIN first
-        try:
-            import twain
-            from PIL import Image
-            import tempfile, os
-            sm = twain.SourceManager(0)
-            ss = sm.OpenSource()
-            ss.RequestAcquire(0, 0)
-            rv = ss.XferImageNatively()
-            (handle, count) = rv
-            if handle:
-                import twain
-                fd, temp_path = tempfile.mkstemp(suffix=".bmp")
-                os.close(fd)
-                twain.DIBToBMFile(handle, temp_path)
-                return temp_path
-            ss.destroy()
-            sm.destroy()
-        except Exception as e:
-            print("TWAIN failed, trying WIA...")
-            # Try WIA as fallback
+    try:
+        if system == "Windows":
             try:
-                import win32com.client
-                wia = win32com.client.Dispatch("WIA.CommonDialog")
-                image = wia.ShowAcquireImage()
-                temp_path = tempfile.mktemp(suffix=".bmp")
-                image.SaveFile(temp_path)
-                return temp_path
-            except Exception as ex:
-                print("WIA failed, fallback to file import.")
-                return None
-    else:
-        # Linux: try SANE or fallback to import
+                import twain
+                # Example: minimal TWAIN scan, will only work if TWAIN drivers and 32-bit Python
+                sm = twain.SourceManager(0)
+                ss = sm.OpenSource()
+                ss.RequestAcquire(0, 0)
+                rv = ss.XferImageNatively()
+                if rv:
+                    (handle, count) = rv
+                    import PIL.Image
+                    image = PIL.Image.frombytes('RGB', handle, 'raw')
+                    path = "scanned_image_win.jpg"
+                    image.save(path)
+                    return path
+            except Exception:
+                pass  # TWAIN not available or scan failed, fallback to file import
+
+        elif system == "Linux":
+            try:
+                import sane
+                sane.init()
+                devices = sane.get_devices()
+                if devices:
+                    dev = sane.open(devices[0][0])
+                    dev.start()
+                    image = dev.snap()
+                    path = "scanned_image_linux.jpg"
+                    image.save(path)
+                    return path
+            except Exception:
+                pass  # SANE not available or scan failed, fallback to file import
+
+        # On Mac or unsupported, always fallback
+        # Fallback: prompt for file import using PyQt5
         try:
-            import sane
-            sane.init()
-            devices = sane.get_devices()
-            if devices:
-                dev = sane.open(devices[0][0])
-                dev.start()
-                im = dev.snap()
-                temp_path = tempfile.mktemp(suffix=".png")
-                im.save(temp_path)
-                return temp_path
-        except Exception as e:
-            print("SANE failed, fallback to file import.")
+            from PyQt5.QtWidgets import QFileDialog
+            file_name, _ = QFileDialog.getOpenFileName(parent, "Open Image", "", "Images (*.png *.jpg *.jpeg *.tiff *.bmp)")
+            return file_name
+        except Exception:
+            print("PyQt5 not available: cannot import file.")
             return None
-    return None
+    except Exception as e:
+        print(f"Scanner error: {e}")
+        return None
