@@ -1,0 +1,7 @@
+{
+  "fields": [
+    {"name": "Product", "type": "text"},
+    {"name": "Date", "type": "date"},
+    {"name": "Quantity", "type": "number"}
+  ]
+}

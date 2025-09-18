@@ -1,0 +1,7 @@
+{
+  "fields": [
+    {"name": "Name", "type": "text"},
+    {"name": "Date of Birth", "type": "date"},
+    {"name": "ID Number", "type": "number"}
+  ]
+}

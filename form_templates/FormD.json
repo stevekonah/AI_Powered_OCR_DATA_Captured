@@ -1,0 +1,7 @@
+{
+  "fields": [
+    {"name": "Patient Name", "type": "text"},
+    {"name": "Appointment Date", "type": "date"},
+    {"name": "Patient ID", "type": "number"}
+  ]
+}

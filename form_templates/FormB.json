@@ -1,0 +1,7 @@
+{
+  "fields": [
+    {"name": "Company", "type": "text"},
+    {"name": "Registration Date", "type": "date"},
+    {"name": "Tax ID", "type": "number"}
+  ]
+}
