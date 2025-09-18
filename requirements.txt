@@ -5,6 +5,6 @@ SQLAlchemy
 pandas
 matplotlib
 bcrypt
-twain
+python-twain
 transformers
 torch
