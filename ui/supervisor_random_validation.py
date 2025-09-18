@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem, QPushButton, QMessageBox
 from db.database import get_random_validated
-
+from PyQt5.QtCore import Qt 
 class SupervisorRandomValidationTab(QWidget):
     def __init__(self, main_window, user):
         super().__init__()
