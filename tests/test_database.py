@@ -1,6 +1,9 @@
+
 from db.database import get_random_validated, ValidatedForm, Session, Base, engine
 import pytest
-
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 def setup_module(module):
     Base.metadata.create_all(engine)
     # Add some dummy forms
