@@ -1,6 +1,8 @@
 import pytest
 from db.user_auth import add_user, authenticate_user
-
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 def test_add_and_authenticate_user(tmp_path, monkeypatch):
     # Patch database URL to use a temporary database
     from db import database
