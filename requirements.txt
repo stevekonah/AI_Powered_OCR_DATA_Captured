@@ -5,7 +5,5 @@ SQLAlchemy
 pandas
 matplotlib
 bcrypt
-# For Linux scanner support (optional):
-python-sane
 transformers
 torch
