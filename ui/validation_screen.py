@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem, QPushButton, QMessageBox
 from db.database import save_to_staging
 from db.validation import validate_field
-from PyQt5.QtCore import Qt
+from PyQt5.QtGui import Qt
 import json
 
 class ValidationScreen(QWidget):
